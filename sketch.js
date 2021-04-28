@@ -1,3 +1,18 @@
+/* 
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>. 
+*/
+
 /* Variablar */
 
 let rs = [];
@@ -44,7 +59,10 @@ class Skip {
       else if (this.x >= windowWidth) this.x = 0 - this.storleik;
       
       if (this.y < 0) this.yRetning *= -1;
-      else if (this.y >= windowHeight - this.storleik) this.yRetning *= -1;
+      else if (this.y >= windowHeight - this.storleik) {
+        this.yRetning *= -1;
+        this.y = windowHeight - this.storleik;
+      }
       
     } else {
 
@@ -54,9 +72,10 @@ class Skip {
       this.x = 0 - this.storleik / 2;
 
     /* Hvis den treff tak eller golv, snur den retning */
-    if (this.y <= 0 + this.storleik / 2)
+    if (this.y <= 0 + this.storleik / 2) {
       this.yRetning *= -1;
-    else if (this.y >= windowHeight - this.storleik / 2)
+      this.y = this.storleik/2;
+    } else if (this.y >= windowHeight - this.storleik / 2) 
       this.yRetning *= -1;
     }
     
@@ -82,7 +101,7 @@ class Skip {
 let poeng = 0;
 let bgFarge = 127;
 
-let skipAntal = 5;
+let skipAntal = 3;
 let fellesStorleik = 150;
 
 /* Etabler skipa */
@@ -94,7 +113,7 @@ setup() {
     rs[i] = new Skip(
       random(0, windowWidth), /* Tilfeldig posisjon */
       random(0 + fellesStorleik/2, windowHeight - fellesStorleik/2),
-      fellesStorleik, /* Alle begynn med same storleik */
+      fellesStorleik, /* Alle byrjar med same storleik */
       random(1,7), /* Tilfeldegt tal i hastigheit, i retning nordaust */
       random(1,7),
       1,
@@ -110,6 +129,7 @@ setup() {
 function
 draw() {
   background(bgFarge);
+  
   for (let i = 0; i < skipAntal; i++) {
     /* Teikn kver ball for seg */
     rs[i].teiknBall();
